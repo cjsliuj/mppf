@@ -121,7 +121,7 @@ def exec():
     # clean
     clean = subparsers.add_parser('clean', help='Clean up locally installed configuration files based on your specified parameters')
     clean.add_argument('-e', action='store_true', help="Remove all expired provisioning profiles.")
-    clean.add_argument('-p', help="Remove any provisioning profiles that matches the regular expression.", dest="")
+    clean.add_argument('-p', help="Remove any provisioning profiles that matches the regular expression.")
     clean.add_argument('-r', action='store_true', help='Remove files with duplicate names(This name refers to the Name key in the provisioning profile). In all provisioning profiles with the same name, the one with the latest creation date will be retained.')
 
     # list
@@ -137,7 +137,7 @@ def exec():
     subCmd = argsDic['subCmd']
 
     if subCmd == 'clean':
-        if not (argsDic.get('e', False) and not argsDic.get('p', False) and  not argsDic.get('r', False)):
+        if not argsDic.get('e', False) and not argsDic.get('p', False) and  not argsDic.get('r', False):
             clean.print_help()
             exit(1)
         print("Loading Provisioning profiles from %s" % _PPF_INSTALL_DIR)
@@ -165,7 +165,7 @@ def exec():
         if argsDic.get('p', False):
             pattern = argsDic['p']
             for idx, ppfEntity in enumerate(ppfs):
-                if re.match(pattern, ppfEntity.name):
+                if re.match(pattern, ppfEntity.name) or pattern in ppfEntity.name:
                     toDelIdxs.append(idx)
                     toDelMatchedPPFs.append(ppfEntity)
         ppfs = removeIdxs(ppfs, toDelIdxs)
@@ -204,7 +204,7 @@ def exec():
         if totalCount <= 0:
             print(greenText("No files to be deleted"))
             exit(0)
-        prompt = yellowText("Delete these provisioning profiles %s?" % (totalCount)) + "(y/n)\n"
+        prompt = yellowText("Delete these provisioning profiles %s?" % (totalCount)) + " (y/n)\n"
         i = input(prompt)
         while not i in ['y', 'n']:
             i = input(prompt)
@@ -260,5 +260,5 @@ def exec():
 
 
 if __name__ == '__main__':
-    sys.argv = ['mppf', 'clean']
+    sys.argv = ['mppf', 'clean','-p','.*ITestP.*','-e']
     exec()
