@@ -259,10 +259,6 @@ def exec():
         parser.print_help()
 
 
-if __name__ == '__main__':
-    # sys.argv = ['mppf', 'info', '-cer','/Users/jerry/Desktop/developmentOfCompanyOrIndividual.mobileprovision']
-    # sys.argv = ['mppf', 'list']
-    # sys.argv = ['mppf', 'clean','-e']
-
-    sys.argv = ['mppf', 'list2']
-    exec()
+# if __name__ == '__main__':
+#     sys.argv = ['mppf']
+#     exec()
