@@ -23,7 +23,7 @@ def greenText(text):
     return "\033[32m" + format(text) + "\033[0m"
 
 def yellowText(text):
-    return "\033[34m" + format(text) + "\033[0m"
+    return "\033[33m" + format(text) + "\033[0m"
 
 def exitWithError(errorMsg):
     print(redText("Error: ") + errorMsg)
@@ -122,7 +122,7 @@ def exec():
     clean = subparsers.add_parser('clean', help='Clean up locally installed configuration files based on your specified parameters')
     clean.add_argument('-e', action='store_true', help="Remove all expired provisioning profiles.")
     clean.add_argument('-p', help="Remove any provisioning profiles that matches the regular expression.", dest="")
-    clean.add_argument('-r', action='store_true')
+    clean.add_argument('-r', action='store_true', help='Remove files with duplicate names(This name refers to the Name key in the provisioning profile). In all provisioning profiles with the same name, the one with the latest creation date will be retained.')
 
     # list
     list = subparsers.add_parser('list', help='List locally installed provisioning profiles')
@@ -259,6 +259,6 @@ def exec():
         parser.print_help()
 
 
-# if __name__ == '__main__':
-#     sys.argv = ['mppf']
-#     exec()
+if __name__ == '__main__':
+    sys.argv = ['mppf', 'clean']
+    exec()
