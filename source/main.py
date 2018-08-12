@@ -122,7 +122,7 @@ def exec():
     clean = subparsers.add_parser('clean', help='Clean up locally installed configuration files based on your specified parameters')
     clean.add_argument('-e', action='store_true', help="Remove all expired provisioning profiles.")
     clean.add_argument('-p', help="Remove any provisioning profiles that matches the regular expression.")
-    clean.add_argument('-r', action='store_true', help='Remove files with duplicate names(This name refers to the Name key in the provisioning profile). In all provisioning profiles with the same name, the one with the latest creation date will be retained.')
+    clean.add_argument('-r', action='store_true', help="Remove files with duplicate names(This name refers to the 'Name' key in the provisioning profile). In all provisioning profiles with the same name, the one with the latest creation date will be retained.")
 
     # list
     list = subparsers.add_parser('list', help='List locally installed provisioning profiles')
@@ -260,5 +260,7 @@ def exec():
 
 
 if __name__ == '__main__':
-    sys.argv = ['mppf', 'clean','-p','.*ITestP.*','-e']
+    sys.argv = ['mppf','clean']
+    # sys.argv = ['mppf', 'list']
+    # sys.argv = ['mppf', 'clean','-p','jiefenglizi','-e']
     exec()
