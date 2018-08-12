@@ -7,7 +7,7 @@ import datetime
 import sys
 import re
 
-VERSION='1.5'
+VERSION='1.6'
 _PPF_INSTALL_DIR = os.path.expanduser("~/Library/MobileDevice/Provisioning Profiles/")
 
 def removeIdxs(array:[object], idxes:[int]):
@@ -122,7 +122,7 @@ def exec():
     subparsers = parser.add_subparsers(dest='subCmd')
 
     # clean
-    clean = subparsers.add_parser('clean', help='Clean up locally installed configuration files based on your specified parameters')
+    clean = subparsers.add_parser('clean', help='Clean up locally installed provisioning profiles based on your specified parameters')
     clean.add_argument('-e', action='store_true', help="Remove all expired provisioning profiles.")
     clean.add_argument('-p', dest="pattern", help="Remove any provisioning profiles that matches the regular expression.")
     clean.add_argument('-r', action='store_true', help="Remove files with duplicate names(This name refers to the 'Name' key in the provisioning profile). In all provisioning profiles with the same name, the one with the latest creation date will be retained.")
@@ -262,7 +262,7 @@ def exec():
 
 
 if __name__ == '__main__':
-    # sys.argv = ['mppf','-v']
+    sys.argv = ['mppf']
     # sys.argv = ['mppf', 'list']
-    sys.argv = ['mppf', 'clean','-p','x']
+    # sys.argv = ['mppf', 'clean','-p','x']
     exec()

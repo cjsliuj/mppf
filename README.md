@@ -15,7 +15,7 @@ usage: mppf [-h] [-v] {clean,list,info} ...
 
 positional arguments:
   {clean,list,info}
-    clean            Clean up locally installed configuration files based on
+    clean            Clean up locally installed provisioning profiles based on
                      your specified parameters
     list             List locally installed provisioning profiles
     info             Output information about a provisioning profile
