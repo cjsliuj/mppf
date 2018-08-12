@@ -1,6 +1,6 @@
 # mppf
 
-A simple command line tool for managing provisioning profiles.
+A simple command line tool for managing provisioning profiles. Reference [sigh](https://github.com/fastlane-old/sigh)
 
 # Install
 #### python >= 3.5
