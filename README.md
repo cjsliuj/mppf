@@ -3,7 +3,7 @@
 A simple command line tool for managing provisioning profiles.
 
 # Install
-python >= 3.5
+#### python >= 3.5
 
 ```
 pip install mppf

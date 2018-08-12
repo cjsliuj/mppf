@@ -6,6 +6,8 @@ import os
 import datetime
 import sys
 import re
+
+VERSION='1.1'
 _PPF_INSTALL_DIR = os.path.expanduser("~/Library/MobileDevice/Provisioning Profiles/")
 
 def removeIdxs(array:[object], idxes:[int]):
@@ -116,12 +118,13 @@ class PPFEntity:
 
 def exec():
     parser = argparse.ArgumentParser(description='', epilog='')
+    parser.add_argument('-v','--version', action='version', version=("%(prog)s "+VERSION))
     subparsers = parser.add_subparsers(dest='subCmd')
 
     # clean
     clean = subparsers.add_parser('clean', help='Clean up locally installed configuration files based on your specified parameters')
     clean.add_argument('-e', action='store_true', help="Remove all expired provisioning profiles.")
-    clean.add_argument('-p', help="Remove any provisioning profiles that matches the regular expression.")
+    clean.add_argument('-p', dest="pattern", help="Remove any provisioning profiles that matches the regular expression.")
     clean.add_argument('-r', action='store_true', help="Remove files with duplicate names(This name refers to the 'Name' key in the provisioning profile). In all provisioning profiles with the same name, the one with the latest creation date will be retained.")
 
     # list
@@ -135,9 +138,8 @@ def exec():
     rs = parser.parse_args(sys.argv[1:])
     argsDic = vars(rs)
     subCmd = argsDic['subCmd']
-
     if subCmd == 'clean':
-        if not argsDic.get('e', False) and not argsDic.get('p', False) and  not argsDic.get('r', False):
+        if not argsDic.get('e', False) and not argsDic.get('pattern', False) and  not argsDic.get('r', False):
             clean.print_help()
             exit(1)
         print("Loading Provisioning profiles from %s" % _PPF_INSTALL_DIR)
@@ -162,8 +164,8 @@ def exec():
         ppfs = removeIdxs(ppfs, toDelIdxs)
 
         toDelMatchedPPFs = []
-        if argsDic.get('p', False):
-            pattern = argsDic['p']
+        if argsDic.get('pattern', False):
+            pattern = argsDic['pattern']
             for idx, ppfEntity in enumerate(ppfs):
                 if re.match(pattern, ppfEntity.name) or pattern in ppfEntity.name:
                     toDelIdxs.append(idx)
@@ -260,7 +262,7 @@ def exec():
 
 
 if __name__ == '__main__':
-    sys.argv = ['mppf','clean']
+    # sys.argv = ['mppf','-v']
     # sys.argv = ['mppf', 'list']
-    # sys.argv = ['mppf', 'clean','-p','jiefenglizi','-e']
+    sys.argv = ['mppf', 'clean','-p','x']
     exec()
