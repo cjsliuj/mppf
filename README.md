@@ -11,15 +11,17 @@ pip install mppf
 # Usage
 
 ```
-usage: mppf [-h] {clean,list,info} ...
+usage: mppf [-h] [-v] {clean,list,info} ...
 
 positional arguments:
   {clean,list,info}
-    clean            Clean locally installed provisioning profiles
+    clean            Clean up locally installed configuration files based on
+                     your specified parameters
     list             List locally installed provisioning profiles
     info             Output information about a provisioning profile
 
 optional arguments:
   -h, --help         show this help message and exit
+  -v, --version      show program's version number and exit
 ```
 

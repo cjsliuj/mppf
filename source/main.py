@@ -7,7 +7,7 @@ import datetime
 import sys
 import re
 
-VERSION='1.1'
+VERSION='1.5'
 _PPF_INSTALL_DIR = os.path.expanduser("~/Library/MobileDevice/Provisioning Profiles/")
 
 def removeIdxs(array:[object], idxes:[int]):
