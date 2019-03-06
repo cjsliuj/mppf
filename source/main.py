@@ -226,6 +226,7 @@ def exec():
                 continue
             ppfPath = os.path.join(_PPF_INSTALL_DIR, fname)
             ppfEntity = PPFEntity(filePath=ppfPath)
+            ppfEntity.fileName = fname
             expirationDate = ppfEntity.expirationDate
             if expirationDate > now:
                 varlidPPFs.append(ppfEntity)
@@ -237,10 +238,13 @@ def exec():
         print("Loading Provisioning profiles from: ", _PPF_INSTALL_DIR)
         print("Valid:")
         for ppf in varlidPPFs:
-            print(greenText("\t " + ppf.name))
-        print("Expired:")
-        for ppf in expiredPPFs:
-            print(redText("\t " + ppf.name))
+            print(greenText("\t " + ppf.name), " (%s)" % ppf.fileName)
+        if len(expiredPPFs) <= 0:
+            print("Expired: \n\tNone")
+        else:
+            print("Expired:")
+            for ppf in expiredPPFs:
+                print(redText("\t " + ppf.name), " (%s)" % ppf.fileName)
         print("Summary:")
         print("\t{installed}, {valid}, {expired}".format(
             installed = str(len(varlidPPFs)+len(expiredPPFs)) + " installed",
@@ -262,7 +266,7 @@ def exec():
 
 
 if __name__ == '__main__':
-    sys.argv = ['mppf']
+    sys.argv = ['mppf','list']
     # sys.argv = ['mppf', 'list']
     # sys.argv = ['mppf', 'clean','-p','x']
     exec()
