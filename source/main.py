@@ -7,7 +7,7 @@ import datetime
 import sys
 import re
 
-VERSION='1.6'
+VERSION='1.7'
 _PPF_INSTALL_DIR = os.path.expanduser("~/Library/MobileDevice/Provisioning Profiles/")
 
 def removeIdxs(array:[object], idxes:[int]):
@@ -173,6 +173,7 @@ def exec():
         ppfs = removeIdxs(ppfs, toDelIdxs)
 
         toDelRepeatPPFs = []
+        toRetainRepeatPPFs = []
         if argsDic.get('r', False):
             name2ppfs = {}
             for ppfEntity in ppfs:
@@ -185,8 +186,11 @@ def exec():
                 if len(ppfs) <= 1:
                     continue
                 ppfs = sorted(ppfs, key=lambda item: item.creationDate)
+
+                last = ppfs.pop(len(ppfs) - 1)
                 for ppf in ppfs:
                     toDelRepeatPPFs.append(ppf)
+                toRetainRepeatPPFs.append(last)
 
         if len(toDelExpiredPPFs):
             print("Expired files to be deleted")
@@ -199,9 +203,14 @@ def exec():
                 print("\t ",redText(ppf.name))
 
         if len(toDelRepeatPPFs):
-            print("Repeat files to be deleted (The file with the latest creation date will be retained)")
+            print("Repeat files to be deleted (The file with the latest creation date will be retained, green marked files will be retained)")
             for ppf in toDelRepeatPPFs:
-                print("\t ",redText(ppf.name))
+                print("\t ",redText("%s (expirationDate: %s, UDID: %s)" % (ppf.name, ppf.expirationDate.strftime("%Y-%m-%d %H:%M:%S"), ppf.UUID)))
+
+            for ppf in toRetainRepeatPPFs:
+                print("\t ", greenText("%s (expirationDate: %s, UDID: %s)" % (
+                ppf.name, ppf.expirationDate.strftime("%Y-%m-%d %H:%M:%S"), ppf.UUID)))
+
         totalCount = len(toDelExpiredPPFs) + len(toDelMatchedPPFs) + len(toDelRepeatPPFs)
         if totalCount <= 0:
             print(greenText("No files to be deleted"))
@@ -266,7 +275,7 @@ def exec():
 
 
 if __name__ == '__main__':
-    sys.argv = ['mppf','list']
+    # sys.argv = ['mppf','list']
     # sys.argv = ['mppf', 'list']
-    # sys.argv = ['mppf', 'clean','-p','x']
+    sys.argv = ['mppf', 'clean','-re']
     exec()
